@@ -1,6 +1,6 @@
 // Drone.cpp
 // ESE 224 Fall 2026 Midterm Project (starter code)
-// Team members: TODO
+// Team members: Katie Ni
 //
 // Every function below compiles but does nothing useful yet.
 // Replace each TODO with your implementation (see Section 3 of the handout).
@@ -11,12 +11,13 @@
 #include <cmath>
 using namespace std;
 
-// ---------- Constructors ---------- // KATIE
+// ---------- Constructors ---------- // 
 
 Drone::Drone()
 {
-    // TODO: set every member to its default value (table in Section 3.2)
+    name = "";
     ID = -1;
+    model = "";
     battery = 100.0;
     maxPayload = 0.0;
     position[0] = 0;
@@ -28,7 +29,15 @@ Drone::Drone()
 Drone::Drone(const string& n, int id, const string& m, double b, double p,
              int x, int y, const string& s) : Drone()
 {
-    // TODO: set each member by calling its mutator, so invalid values keep the default
+    setName(n);
+    setID(id);
+    setModel(m);
+    setBattery(b);
+    setMaxPayLoad(p);
+    setPosition(0, x);
+    setPosition(1, y);
+    setStatus(s);
+    deliveriesCompleted = 0;
 }
 
 // ---------- Accessors ----------
@@ -43,8 +52,13 @@ int Drone::getDeliveriesCompleted() const { return deliveriesCompleted; }
 
 int Drone::getPosition(int index) const
 {
-    // TODO: index 0 is x, index 1 is y; any other index prints an error and returns -1
-    return -1;
+    if (index == 0 || index == 1) {
+        return position[index];
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return -1;
+    }
 }
 
 // ---------- Mutators ----------
@@ -56,38 +70,74 @@ void Drone::setName(const string& n)
 
 bool Drone::setID(int id)
 {
-    // TODO: valid when id > 0
-    return false;
+    if (id > 0) {
+        ID = id;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 bool Drone::setModel(const string& m)
 {
-    // TODO: valid when m is "Kestrel", "Falcon", or "Condor"
-    return false;
+    if (m == "Kestrel" || m == "Falcon" || m == "Condor") {
+        model = m;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 bool Drone::setBattery(double b)
 {
-    // TODO: valid when 0 <= b <= 100
-    return false;
+    if (0 <= b <= 100) {
+        battery = b;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 bool Drone::setMaxPayload(double p)
 {
-    // TODO: valid when p > 0
-    return false;
+    if (p > 0) {
+        maxPayload = p;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 bool Drone::setPosition(int index, int value)
 {
-    // TODO: valid when index is 0 or 1 and value >= 0
-    return false;
+    if ((index == 0 || index == 1) && value >= 0) {
+        position[index] = value;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 bool Drone::setStatus(const string& s)
 {
-    // TODO: valid when s is "IDLE", "CHARGING", or "MAINTENANCE"
-    return false;
+    if (s == "IDLE" || s == "CHARGING" || s == "MAINTENANCE") {
+        status = s;
+        return true;
+    }
+    else {
+        cerr << "Error: Invalid input.\n";
+        return false;
+    }
 }
 
 // ---------- Delivery methods ---------- 

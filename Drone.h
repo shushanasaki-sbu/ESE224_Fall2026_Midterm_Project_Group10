@@ -1,6 +1,6 @@
 // Drone.h
 // ESE 224 Fall 2026 Midterm Project (starter code)
-// Team members: TODO
+// Team members: Katie Ni
 
 #ifndef DRONE_H
 #define DRONE_H
@@ -63,4 +63,3 @@ public:
 };
 
 #endif
-//testing github
