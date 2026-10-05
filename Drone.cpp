@@ -127,3 +127,4 @@ bool Drone::operator==(const Drone& other) const
     // TODO: two drones are equal if they have the same ID
     return false;
 }
+
