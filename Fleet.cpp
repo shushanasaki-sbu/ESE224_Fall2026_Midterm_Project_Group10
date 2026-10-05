@@ -75,7 +75,7 @@ bool Fleet::isSortedByID() const
     return false;
 }
 
-// ---------- Searching ----------
+// ---------- Searching ---------- // SHUSHANA
 
 int Fleet::linearSearchByName(const string& name) const
 {
@@ -90,7 +90,7 @@ int Fleet::binarySearchByID(int id)
     return -1;
 }
 
-// ---------- Dispatching ---------- // SHUSHANA
+// ---------- Dispatching ---------- 
 
 int Fleet::findNearestAvailable(int x, int y, double weight) const
 {
