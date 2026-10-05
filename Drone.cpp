@@ -11,7 +11,7 @@
 #include <cmath>
 using namespace std;
 
-// ---------- Constructors ----------
+// ---------- Constructors ---------- // KATIE
 
 Drone::Drone()
 {
@@ -90,7 +90,7 @@ bool Drone::setStatus(const string& s)
     return false;
 }
 
-// ---------- Delivery methods ----------
+// ---------- Delivery methods ---------- //SHUSHANA
 
 double Drone::distanceTo(int x, int y) const
 {
