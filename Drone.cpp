@@ -90,7 +90,7 @@ bool Drone::setStatus(const string& s)
     return false;
 }
 
-// ---------- Delivery methods ---------- //SHUSHANA
+// ---------- Delivery methods ---------- 
 
 double Drone::distanceTo(int x, int y) const
 {
