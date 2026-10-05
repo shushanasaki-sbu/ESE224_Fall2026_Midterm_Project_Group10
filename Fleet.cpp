@@ -24,11 +24,16 @@ unsigned long long Fleet::nextRandom(unsigned long long &state) const
 void Fleet::swapDrones(int i, int j)
 {
     // TODO: exchange drones[i] and drones[j] using a temporary Drone
+    Drone temp = drones[i];
+    drones[i] = drones[j];
+    drones[j] = temp;
 }
 
 bool Fleet::validIndex(int index) const
 {
     // TODO: true if 0 <= index < number of drones
+    if (index >= 0 && index < (int)drones.size())
+        return true;
     return false;
 }
 
@@ -37,12 +42,22 @@ bool Fleet::validIndex(int index) const
 bool Fleet::addDrone(const Drone& d)
 {
     // TODO: reject a duplicate ID (use operator==), otherwise add to the end
-    return false;
+    for (const Drone& drone : drones) {
+        if (drone == d){
+            return false; // Duplicate ID found
+        }
+    }
+
+    drones.push_back(d); // Add the drone to the end of the vector
+    return true;
 }
 
 Drone Fleet::getDrone(int index) const
 {
     // TODO: check the range; print an error and return Drone() if invalid
+    if (!validIndex(index)) {
+        cout << "Error: Invalid index." << endl;
+    }
     return Drone();
 }
 
@@ -75,7 +90,7 @@ bool Fleet::isSortedByID() const
     return false;
 }
 
-// ---------- Searching ----------
+// ---------- Searching ---------- // SHUSHANA
 
 int Fleet::linearSearchByName(const string& name) const
 {
@@ -90,7 +105,7 @@ int Fleet::binarySearchByID(int id)
     return -1;
 }
 
-// ---------- Dispatching ---------- // SHUSHANA
+// ---------- Dispatching ---------- 
 
 int Fleet::findNearestAvailable(int x, int y, double weight) const
 {
