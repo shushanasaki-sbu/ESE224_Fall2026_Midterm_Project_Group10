@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Drone.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Drone.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Drone.cpp",
+              "DocumentMoniker": "C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.cpp",
+              "RelativeDocumentMoniker": "Drone.cpp",
+              "ToolTip": "C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.cpp",
+              "RelativeToolTip": "Drone.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-05T20:47:32.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Drone.h",
+              "DocumentMoniker": "C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.h",
+              "RelativeDocumentMoniker": "Drone.h",
+              "ToolTip": "C:\\Users\\kid1\\Documents\\2026 Fall - ESE 224\\ESE224_Midterm_Project\\Drone.h",
+              "RelativeToolTip": "Drone.h",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-05T20:39:06.937Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

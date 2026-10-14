@@ -1,9 +1,6 @@
 // Drone.cpp
-// ESE 224 Fall 2026 Midterm Project (starter code)
+// ESE 224 Fall 2026 Midterm Project
 // Team members: Katie Ni
-//
-// Every function below compiles but does nothing useful yet.
-// Replace each TODO with your implementation (see Section 3 of the handout).
 
 #include "Drone.h"
 #include <iostream>
@@ -20,8 +17,8 @@ Drone::Drone()
     model = "";
     battery = 100.0;
     maxPayload = 0.0;
-    position[0] = 0;
-    position[1] = 0;
+    position[0] = 0; //x
+    position[1] = 0; //y
     status = "IDLE";
     deliveriesCompleted = 0;
 }
@@ -144,37 +141,45 @@ bool Drone::setStatus(const string& s)
 
 double Drone::distanceTo(int x, int y) const
 {
-    // TODO: straight-line distance from this drone to (x, y)
-    return 0.0;
+    return sqrt(pow(x - position[0], 2) + pow(y - position[1], 2));
 }
 
 double Drone::batteryNeeded(int x, int y, double weight) const
 {
-    // TODO: distanceTo(x, y) * BATTERY_PER_UNIT * (1 + PAYLOAD_FACTOR * weight)
-    return 0.0;
+    return distanceTo(x, y) * BATTERY_PER_UNIT * (1 + PAYLOAD_FACTOR * weight);
 }
 
 bool Drone::canDeliver(int x, int y, double weight) const
 {
-    // TODO: IDLE, weight <= maxPayload, and enough battery to keep SAFETY_RESERVE
-    return false;
+    return (status == "IDLE" && weight <= maxPayload && (battery - batteryNeeded(x, y, weight)) >= SAFETY_RESERVE);
 }
 
 void Drone::completeDelivery(int x, int y, double weight)
 {
-    // TODO: use battery, move to (x, y), count the delivery, switch to CHARGING if below LOW_BATTERY
+    battery -= batteryNeeded(x, y, weight);
+    setPosition(0, x);
+    setPosition(1, y);
+    deliveriesCompleted++;
+    if (battery < LOW_BATTERY)
+        status = "CHARGING";
 }
 
 // ---------- Display and comparison ----------
 
 void Drone::displayDrone() const
 {
-    // TODO: print every member with a label
+    cout << "Name: " << name << endl;
+    cout << "ID: " << ID << endl;
+    cout << "Model: " << model << endl;
+    cout << "Battery: " << battery << endl;
+    cout << "Max Payload: " << maxPayload << endl;
+    cout << "Position: (" << position[0] << ", " << position[1] << ")" << endl;
+    cout << "Status: " << status << endl;
+    cout << "Deliveries Completed " << deliveriesCompleted << endl;
 }
 
 bool Drone::operator==(const Drone& other) const
 {
-    // TODO: two drones are equal if they have the same ID
-    return false;
+    return ID == other.getID();
 }
 
