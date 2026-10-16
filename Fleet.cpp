@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <cmath>
 using namespace std;
 
 // ---------- Private helpers ---------- // YANGZOOM
@@ -202,25 +203,92 @@ int Fleet::binarySearchByID(int id)
 int Fleet::findNearestAvailable(int x, int y, double weight) const
 {
     // TODO: closest drone that canDeliver; ties go to the smaller ID; -1 if none
+    int best= 0, bestDistance =0;
+    bool found = false;
 
+
+    for (int i=0; i< getSize(); i++){
+        if(drones[i].canDeliver(x, y, weight)){
+            continue; // can deliver is true
+        }
+
+        int x= drones[i].getPosition(0) - x; //x coordinate of the drone
+        int y= drones[i].getPosition(1) - y; //y cordinate 
+
+        int distance = pow(x,2) +pow(y,2);
+
+        if (!found || distance < bestDistance || (distance == bestDistance && drones[i].getID() < drones[best].getID()) ){
+            best = i;
+            bestDistance = distance;
+            found = true;
+        }
+
+    }
+    if (found) {
+        return best;
+    }
     return -1;
 }
 
 bool Fleet::dispatchDrone(int index, int x, int y, double weight)
 {
     // TODO: check index and canDeliver, then completeDelivery
-    return false;
+
+    if(!validIndex(index)){
+        cout << "invalid index" <<endl;
+        return false;
+    }
+
+    if(!drones[index].canDeliver(x, y, weight)){
+            return false; 
+        }
+    drones[index].completeDelivery(x,y, weight);
+    return true;
 }
 
 bool Fleet::rechargeDrone(int id)
 {
     // TODO: battery 100 and IDLE, unless MAINTENANCE; message if not found
+     for (int i = 0; i < getSize(); i++) {
+        if (drones[i].getID() == id) {
+            if (drones[i].getStatus() == "MAINTENANCE") {
+                cout << "Drone " << id << " is in MAINTENANCE and cannot be recharged." << endl;
+                return false;
+            }
+
+            drones[i].setBattery(100);
+            drones[i].setStatus("IDLE");
+            return true;
+        }
+    }
+
+    cout << "Drone with ID " << id << " not found." << endl;
     return false;
 }
 
 void Fleet::countByStatus() const
 {
     // TODO: counts of IDLE, CHARGING, MAINTENANCE and the average battery
+    int countIdle =0, countMaintenance =0, battery=0, charging= 0;
+    for (int i = 0; i < getSize(); i++) {
+        if (drones[i].getStatus() == "MAINTENANCE") {
+            countMaintenance++;
+
+        }
+        else if (drones[i].getStatus() == "IDLE"){
+            countIdle++;
+        }
+        else if (drones[i].getStatus() == "CHARGING"){
+            charging++;
+        }
+        battery+= drones[i].getBattery();
+        
+    }
+    cout << "IDLE: " << countIdle << endl;
+    cout << "CHARGING: " << charging << endl;
+    cout << "MAINTENANCE: " << countMaintenance << endl;
+    cout << "Average battery: " << fixed << setprecision(1) << battery/getSize() << endl;
+
 }
 
 void Fleet::processOrders(const string& orderFile, const string& logFile)
