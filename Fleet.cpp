@@ -72,22 +72,84 @@ int Fleet::getSize() const
 void Fleet::selectionSortByID()
 {
     // TODO: ascending by ID. Print: Selection sort by ID: C comparisons, S swaps.
+    int c=0, s=0;
+
+    for(int i =0; i< getSize() ; i++){
+        int min = i;
+        for (int j =i+1; j< getSize(); i++){
+            c++;
+            if(drones[j].getID() < drones[min].getID()){
+                min=j;
+            }
+        }
+        if (min!= i){
+            swapDrones(i, min);
+            s++; 
+        }
+    }
+    cout << " election sort by ID: comparisons "  << c << "swaps " << s; 
 }
 
 void Fleet::insertionSortByBattery()
 {
     // TODO: descending by battery. Print: Insertion sort by battery: C comparisons, H shifts.
+    int c=0, h=0;
+    for (int i = 1; i < getSize(); i++) {
+        Drone key = drones[i];
+        int j = i - 1;
+
+        while (j >= 0) {
+            c++;                                        
+            if (drones[j].getBattery() < key.getBattery()) {
+                drones[j + 1] = drones[j];             
+                h++;
+                j--;
+            } else {
+                break;                                 
+            }
+        }
+
+        drones[j + 1] = key;
+    }
+    cout << "Insertion sort by battery: comparision " <<  c << "shifts "  << h;
 }
 
 void Fleet::sortByName()
 {
     // TODO: insertion sort, alphabetical. Print: Insertion sort by name: C comparisons, H shifts.
+    int c=0, h=0;
+
+    for(int i =0; i< getSize() ; i++){
+        Drone key = drones[i];
+        int j = i - 1;
+    
+        while (j >= 0) {
+            c++;
+            if(drones[j].getName() >key.getName()){
+                drones[j + 1] = drones[j];             
+                h++;
+                j--;
+            } else {
+                break;                                  
+            }
+        }
+
+        drones[j + 1] = key;
+    }
+    cout << "Insertion sort by name: " << c << " comparisons, " << h << " shifts" << endl;
+
 }
+
 
 bool Fleet::isSortedByID() const
 {
     // TODO
-    return false;
+   for (int i = 1; i < (int)drones.size(); i++) {
+        if (drones[i - 1].getID() > drones[i].getID()) {   
+            return false;
+        }
+    }
+    return true;
 }
 
 // ---------- Searching ---------- // SHUSHANA
@@ -95,6 +157,14 @@ bool Fleet::isSortedByID() const
 int Fleet::linearSearchByName(const string& name) const
 {
     // TODO: one comparison per drone checked; print the count; return index or -1
+    int count=0;
+
+    for (int i =0; i <getSize(); i++){
+        count++;
+        if(drones[i].getName()==name){
+            cout << "Count" << count << endl;
+        }
+    }
     return -1;
 }
 
@@ -102,7 +172,29 @@ int Fleet::binarySearchByID(int id)
 {
     // TODO: sort first if needed (print a message), then binary search.
     // One comparison per loop iteration. Print the count; return index or -1.
-    return -1;
+    int count=0;
+    if (!isSortedByID()){
+        cout<< "not sorted" << endl;
+        selectionSortByID();
+    }
+
+    int low = 0;
+    int high = getSize() - 1;
+
+    while (low <= high) {
+        count++;                                       
+        int mid = low + (high - low) / 2;
+
+        if (drones[mid].getID() == id) {
+            cout << "Binary search by ID: " << count << " comparisons" << endl;
+            return mid;
+        } else if (drones[mid].getID() < id) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+
 }
 
 // ---------- Dispatching ---------- 
@@ -110,6 +202,7 @@ int Fleet::binarySearchByID(int id)
 int Fleet::findNearestAvailable(int x, int y, double weight) const
 {
     // TODO: closest drone that canDeliver; ties go to the smaller ID; -1 if none
+
     return -1;
 }
 
