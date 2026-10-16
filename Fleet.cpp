@@ -241,11 +241,22 @@ void Fleet::shuffleFleet(unsigned long long seed)
 void Fleet::displayAll() const
 {
     // TODO: print every drone with its index
+    if (drones.empty()){
+        cout<< "NO DRONES" << endl;
+    
+    }
+    for (int i=0; i<getSize(); i++){
+        drones[i].displayDrone();
+    }
 }
 
 void Fleet::displayDrone(int index) const
 {
     // TODO: check the range, then print one drone
+    if (!validIndex(index)){
+        cout << "Error: Invalid index"<<endl;
+    }
+    drones[index].displayDrone();
 }
 
 void Fleet::writeFleetToFile(const string& filename) const
