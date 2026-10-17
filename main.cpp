@@ -110,6 +110,8 @@ int main()
             cout << "Invalid option. Please enter a number." << endl;
             continue;
         }
+        
+        cout << "\n" << endl;
 
         switch (choice)
         {

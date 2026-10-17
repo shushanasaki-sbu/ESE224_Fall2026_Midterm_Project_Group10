@@ -2,9 +2,7 @@
 // ESE 224 Fall 2026 Midterm Project (starter code)
 // Team members: Yangzoom, Shsuahana
 //
-// Every function below compiles but does nothing useful yet.
-// Replace each TODO with your implementation (see Section 4 of the handout).
-// Remember: no <algorithm>, no std::sort, std::swap, std::find, or std::shuffle.
+
 
 #include "Fleet.h"
 #include <iostream>
@@ -15,7 +13,6 @@ using namespace std;
 
 // ---------- Private helpers ---------- // YANGZOOM
 
-// Provided random number generator. Copy exactly; do not change.
 unsigned long long Fleet::nextRandom(unsigned long long &state) const
 {
     state = (state * 1103515245ULL + 12345ULL) % 2147483648ULL;
@@ -24,7 +21,6 @@ unsigned long long Fleet::nextRandom(unsigned long long &state) const
 
 void Fleet::swapDrones(int i, int j)
 {
-    // TODO: exchange drones[i] and drones[j] using a temporary Drone
     Drone temp = drones[i];
     drones[i] = drones[j];
     drones[j] = temp;
@@ -32,7 +28,6 @@ void Fleet::swapDrones(int i, int j)
 
 bool Fleet::validIndex(int index) const
 {
-    // TODO: true if 0 <= index < number of drones
     if (index >= 0 && index < (int)drones.size())
         return true;
     return false;
@@ -42,7 +37,6 @@ bool Fleet::validIndex(int index) const
 
 bool Fleet::addDrone(const Drone& d)
 {
-    // TODO: reject a duplicate ID (use operator==), otherwise add to the end
     for (const Drone& drone : drones) {
         if (drone == d){
             return false; // Duplicate ID found
@@ -55,7 +49,6 @@ bool Fleet::addDrone(const Drone& d)
 
 Drone Fleet::getDrone(int index) const
 {
-    // TODO: check the range; print an error and return Drone() if invalid
     if (!validIndex(index)) {
         cout << "Error: Invalid index." << endl;
         return Drone();
@@ -69,11 +62,9 @@ int Fleet::getSize() const
 }
 
 // ---------- Sorting ----------
-// Follow the counting rules in Section 4.2 exactly; your counts are checked.
 
 void Fleet::selectionSortByID()
 {
-    // TODO: ascending by ID. Print: Selection sort by ID: C comparisons, S swaps.
     int c = 0, s = 0;
 
     for(int i = 0; i< getSize() ; i++){
@@ -89,12 +80,11 @@ void Fleet::selectionSortByID()
             s++; 
         }
     }
-    cout << "Selection sort by ID: comparisons - "  << c << "swaps - " << s; 
+    cout << "Selection sort by ID: comparisons - "  << c << ", swaps - " << s << "\n" << endl; 
 }
 
 void Fleet::insertionSortByBattery()
 {
-    // TODO: descending by battery. Print: Insertion sort by battery: C comparisons, H shifts.
     int c = 0, h = 0;
     for (int i = 1; i < getSize(); i++) {
         Drone key = drones[i];
@@ -113,12 +103,11 @@ void Fleet::insertionSortByBattery()
 
         drones[j + 1] = key;
     }
-    cout << "Insertion sort by battery: comparisions - " <<  c << "shifts - "  << h;
+    cout << "Insertion sort by battery: comparisions - " <<  c << ", shifts - "  << h << "\n" << endl;
 }
 
 void Fleet::sortByName()
 {
-    // TODO: insertion sort, alphabetical. Print: Insertion sort by name: C comparisons, H shifts.
     int c = 0, h = 0;
 
     for(int i =0; i< getSize() ; i++){
@@ -145,7 +134,6 @@ void Fleet::sortByName()
 
 bool Fleet::isSortedByID() const
 {
-    // TODO
    for (int i = 1; i < (int)drones.size(); i++) {
         if (drones[i - 1].getID() > drones[i].getID()) {   
             return false;
@@ -166,7 +154,7 @@ int Fleet::linearSearchByName(const string& name) const
             return i;
         }
     }
-    cout << "Linear search not successful. Comparisons: " << count <<endl;
+    cout << "Linear search not successful. Comparisons: " << count << "\n" << endl;
     return -1;
 }
 
@@ -187,7 +175,7 @@ int Fleet::binarySearchByID(int id)
         int mid = low + (high - low) / 2;
 
         if (drones[mid].getID() == id) {
-            cout << "Binary search by ID successful. Found after " << count << " comparisons." << endl;
+            cout << "Binary search by ID successful. Found after " << count << " comparisons." <<  "\n" <<endl;
             return mid;
         } else if (drones[mid].getID() < id) {
             low = mid + 1;
