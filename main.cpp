@@ -1,8 +1,7 @@
 // main.cpp
 // ESE 224 Fall 2026 Midterm Project (starter code)
-// Team members: TODO
+// Team members: Shushana
 //
-// This skeleton compiles and shows the menu. Fill in each TODO (see Section 5 of the handout).
 
 #include "Drone.h"
 #include "Fleet.h"
@@ -12,10 +11,40 @@
 #include <limits>
 using namespace std;
 
-// TODO: ask for a username and password until the pair appears in users.txt,
-//       then greet the user by name.
 void login()
 {
+    string username, password;
+    bool loginPassed = false;
+
+    while (!loginPassed) {
+        cout << "Please enter your username: ";
+        cin >> username;
+        cout << "Please enter your password: ";
+        cin >> password;
+
+        ifstream file("users.txt");
+        if (!file) {
+            cerr << "Error: Unable to open users.txt." << endl;
+            return;
+        }
+
+        string user, pass;
+        while (file >> user >> pass) {
+            if (user == username && pass == password) {
+                loginPassed = true;
+                break();
+            }
+        }
+
+        file.close();
+        
+        if (loginPassed) {
+            cout << "Login successful!\n" << endl;
+        } else {
+            cout << "Login unsuccessful. Please try again.\n" << endl;
+        }
+        
+    }
 }
 
 // TODO: read every drone from the file until the end of the file,
