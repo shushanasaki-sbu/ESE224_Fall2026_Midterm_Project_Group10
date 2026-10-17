@@ -1,6 +1,6 @@
 // Fleet.cpp
 // ESE 224 Fall 2026 Midterm Project (starter code)
-// Team members: TODO
+// Team members: Yangzoom, Shsuahana
 //
 // Every function below compiles but does nothing useful yet.
 // Replace each TODO with your implementation (see Section 4 of the handout).
@@ -58,8 +58,9 @@ Drone Fleet::getDrone(int index) const
     // TODO: check the range; print an error and return Drone() if invalid
     if (!validIndex(index)) {
         cout << "Error: Invalid index." << endl;
+        return Drone();
     }
-    return Drone();
+    return drones[index];
 }
 
 int Fleet::getSize() const
@@ -73,28 +74,28 @@ int Fleet::getSize() const
 void Fleet::selectionSortByID()
 {
     // TODO: ascending by ID. Print: Selection sort by ID: C comparisons, S swaps.
-    int c=0, s=0;
+    int c = 0, s = 0;
 
-    for(int i =0; i< getSize() ; i++){
+    for(int i = 0; i< getSize() ; i++){
         int min = i;
-        for (int j =i+1; j< getSize(); i++){
+        for (int j = i + 1; j < getSize(); j++){
             c++;
             if(drones[j].getID() < drones[min].getID()){
-                min=j;
+                min = j;
             }
         }
-        if (min!= i){
+        if (min != i){
             swapDrones(i, min);
             s++; 
         }
     }
-    cout << " election sort by ID: comparisons "  << c << "swaps " << s; 
+    cout << "Selection sort by ID: comparisons - "  << c << "swaps - " << s; 
 }
 
 void Fleet::insertionSortByBattery()
 {
     // TODO: descending by battery. Print: Insertion sort by battery: C comparisons, H shifts.
-    int c=0, h=0;
+    int c = 0, h = 0;
     for (int i = 1; i < getSize(); i++) {
         Drone key = drones[i];
         int j = i - 1;
@@ -112,13 +113,13 @@ void Fleet::insertionSortByBattery()
 
         drones[j + 1] = key;
     }
-    cout << "Insertion sort by battery: comparision " <<  c << "shifts "  << h;
+    cout << "Insertion sort by battery: comparisions - " <<  c << "shifts - "  << h;
 }
 
 void Fleet::sortByName()
 {
     // TODO: insertion sort, alphabetical. Print: Insertion sort by name: C comparisons, H shifts.
-    int c=0, h=0;
+    int c = 0, h = 0;
 
     for(int i =0; i< getSize() ; i++){
         Drone key = drones[i];
@@ -157,26 +158,25 @@ bool Fleet::isSortedByID() const
 
 int Fleet::linearSearchByName(const string& name) const
 {
-    // TODO: one comparison per drone checked; print the count; return index or -1
-    int count=0;
-
-    for (int i =0; i <getSize(); i++){
+    int count = 0;
+    for (int i = 0; i <getSize(); i++){
         count++;
         if(drones[i].getName()==name){
-            cout << "Count" << count << endl;
+            cout << "Linear search successful, found after " << count << " comparisons." << endl;
+            return i;
         }
     }
+    cout << "Linear search not successful. Comparisons: " << count <<endl;
     return -1;
 }
 
 int Fleet::binarySearchByID(int id)
 {
-    // TODO: sort first if needed (print a message), then binary search.
-    // One comparison per loop iteration. Print the count; return index or -1.
-    int count=0;
+    int count = 0;
     if (!isSortedByID()){
-        cout<< "not sorted" << endl;
+        cout << "Fleet not sorted. Sorting now." << endl;
         selectionSortByID();
+        cout << "Sorting by ID complete." << endl;
     }
 
     int low = 0;
@@ -187,7 +187,7 @@ int Fleet::binarySearchByID(int id)
         int mid = low + (high - low) / 2;
 
         if (drones[mid].getID() == id) {
-            cout << "Binary search by ID: " << count << " comparisons" << endl;
+            cout << "Binary search by ID successful. Found after " << count << " comparisons." << endl;
             return mid;
         } else if (drones[mid].getID() < id) {
             low = mid + 1;
@@ -196,35 +196,38 @@ int Fleet::binarySearchByID(int id)
         }
     }
 
+    cout << "Binary search by ID failed. Comparisons: " << count << endl;
+    return -1;
 }
 
 // ---------- Dispatching ---------- 
 
 int Fleet::findNearestAvailable(int x, int y, double weight) const
 {
-    // TODO: closest drone that canDeliver; ties go to the smaller ID; -1 if none
-    int best= 0, bestDistance =0;
+    int best = -1;
+    double bestDistance  = -1;
     bool found = false;
 
-
-    for (int i=0; i< getSize(); i++){
-        if(drones[i].canDeliver(x, y, weight)){
-            continue; // can deliver is true
+    for (int i=0; i< getSize(); i++)
+    {
+        if(!drones[i].canDeliver(x, y, weight))
+        {
+            continue; 
         }
 
-        int x= drones[i].getPosition(0) - x; //x coordinate of the drone
-        int y= drones[i].getPosition(1) - y; //y cordinate 
+        int drone_x = drones[i].getPosition(0) - x; 
+        int drone_y = drones[i].getPosition(1) - y; 
+        double distance = pow(drone_x, 2) + pow(drone_y, 2);
 
-        int distance = pow(x,2) +pow(y,2);
-
-        if (!found || distance < bestDistance || (distance == bestDistance && drones[i].getID() < drones[best].getID()) ){
+        if (!found || distance < bestDistance || (distance == bestDistance && drones[i].getID() < drones[best].getID()) )
+        {
             best = i;
             bestDistance = distance;
             found = true;
         }
-
     }
-    if (found) {
+    if (found) 
+    {
         return best;
     }
     return -1;
@@ -232,23 +235,25 @@ int Fleet::findNearestAvailable(int x, int y, double weight) const
 
 bool Fleet::dispatchDrone(int index, int x, int y, double weight)
 {
-    // TODO: check index and canDeliver, then completeDelivery
-
-    if(!validIndex(index)){
-        cout << "invalid index" <<endl;
+    if(!validIndex(index))
+    {
+        cout << "Error: Invalid index." <<endl;
         return false;
     }
 
-    if(!drones[index].canDeliver(x, y, weight)){
-            return false; 
-        }
+    if(!drones[index].canDeliver(x, y, weight))
+    {
+        cout << "Error: Drone can't deliver." << endl;
+        return false; 
+    }
+
     drones[index].completeDelivery(x,y, weight);
+    cout << "Drone delivery sucessful!" << endl;
     return true;
 }
 
 bool Fleet::rechargeDrone(int id)
 {
-    // TODO: battery 100 and IDLE, unless MAINTENANCE; message if not found
      for (int i = 0; i < getSize(); i++) {
         if (drones[i].getID() == id) {
             if (drones[i].getStatus() == "MAINTENANCE") {
@@ -258,6 +263,7 @@ bool Fleet::rechargeDrone(int id)
 
             drones[i].setBattery(100);
             drones[i].setStatus("IDLE");
+            cout << "Drone recharge successful! Now set to IDLE." << endl;
             return true;
         }
     }
@@ -268,41 +274,38 @@ bool Fleet::rechargeDrone(int id)
 
 void Fleet::countByStatus() const
 {
-    // TODO: counts of IDLE, CHARGING, MAINTENANCE and the average battery
-    int countIdle =0, countMaintenance =0, battery=0, charging= 0;
+    int countIdle = 0, countMaintenance = 0, charging = 0;
+    double totalBattery = 0.0;
+
     for (int i = 0; i < getSize(); i++) {
         if (drones[i].getStatus() == "MAINTENANCE") {
             countMaintenance++;
-
         }
-        else if (drones[i].getStatus() == "IDLE"){
+        else if (drones[i].getStatus() == "IDLE") {
             countIdle++;
         }
-        else if (drones[i].getStatus() == "CHARGING"){
+        else if (drones[i].getStatus() == "CHARGING") {
             charging++;
         }
-        battery+= drones[i].getBattery();
+        totalBattery+= drones[i].getBattery();
         
     }
+    cout << "---- Fleet Status Summary ----" << endl;
     cout << "IDLE: " << countIdle << endl;
     cout << "CHARGING: " << charging << endl;
     cout << "MAINTENANCE: " << countMaintenance << endl;
-    cout << "Average battery: " << fixed << setprecision(1) << battery/getSize() << endl;
-
+    cout << "Average battery: " << fixed << setprecision(1) << (totalBattery/getSize()) << "%" << endl;
 }
 
 void Fleet::processOrders(const string& orderFile, const string& logFile)
 {
-    // TODO: for each order in file order, find the nearest available drone and dispatch it.
-    // Write one line per order to the screen and the log, then the summary line.
-    // Sum the exact distances; round only when printing.
     ifstream input(orderFile);
     ofstream output(logFile);
 
     if (!input || !output ){
-        cerr << "error: can't open the file " << endl;
+        cerr << "Error: Input and output file unable to be accessed." << endl;
+        return;
     }
-
 
     int orderID, x, y;
     double weight;
@@ -311,34 +314,37 @@ void Fleet::processOrders(const string& orderFile, const string& logFile)
 
     while (input >> orderID >> x >> y >> weight) {
         total++;
-        
-        int idx = findNearestAvailable(x, y, weight);
+        int index = findNearestAvailable(x, y, weight);
 
-        if (idx == -1) {
+        if (index  == -1) {
             cout << "Order " << orderID << ": UNASSIGNED" << endl;
             output << "Order " << orderID << ": UNASSIGNED" << endl;
             continue;
 
         } 
- 
-        double distance = drones[idx].distanceTo(x, y);
-        double batteryBefore = drones[idx].getBattery();
-        int droneID = drones[idx].getID();
-        string droneName = drones[idx].getName();
 
-        dispatchDrone(idx, x, y, weight);
+        double distance = drones[index].distanceTo(x, y);
+        double batteryBefore = drones[index].getBattery();
+        int droneID = drones[index].getID();
+        string droneName = drones[index].getName();
+
+        dispatchDrone(index, x, y, weight);
 
         assigned++;
         totalDistance += distance;
 
+        cout << fixed << setprecision(1);
+        output << fixed << setprecision(1);
         cout << "Order " << orderID << ": Drone " << droneID << " (" << droneName
              << ") distance " << distance << " battery " << batteryBefore
-             << " -> " << drones[idx].getBattery() << endl;
+             << " -> " << drones[index].getBattery() << endl;
         output << "Order " << orderID << ": Drone " << droneID << " (" << droneName
              << ") distance " << distance << " battery " << batteryBefore
-             << " -> " << drones[idx].getBattery() << endl;
+             << " -> " << drones[index].getBattery() << endl;
     }
 
+    cout << fixed << setprecision(1);
+        output << fixed << setprecision(1);
     cout << "Assigned " << assigned << " of " << total
          << " orders. Total distance flown: " << totalDistance << endl;
     output << "Assigned " << assigned << " of " << total
@@ -346,12 +352,9 @@ void Fleet::processOrders(const string& orderFile, const string& logFile)
 
 }
 
-// ---------- Other ----------
 
 void Fleet::shuffleFleet(unsigned long long seed)
 {
-    // TODO: Fisher-Yates. state = seed; for i from n-1 down to 1:
-    //       j = nextRandom(state) % (i + 1), then swap drones i and j.
     unsigned long long state = seed;
 
     for (int i = getSize() - 1; i > 0; i--) {
@@ -363,34 +366,36 @@ void Fleet::shuffleFleet(unsigned long long seed)
 
 void Fleet::displayAll() const
 {
-    // TODO: print every drone with its index
     if (drones.empty()){
-        cout<< "NO DRONES" << endl;
+        cout<< "No drones are in this fleet." << endl;
     
     }
     for (int i=0; i<getSize(); i++){
+        cout << "Drone " << i << endl;
         drones[i].displayDrone();
+        cout << "-------------\n" << endl;
     }
 }
 
 void Fleet::displayDrone(int index) const
 {
-    // TODO: check the range, then print one drone
     if (!validIndex(index)){
-        cout << "Error: Invalid index"<<endl;
+        cout << "Error: Invalid index." <<endl;
+        return;
     }
+
     drones[index].displayDrone();
 }
 
 void Fleet::writeFleetToFile(const string& filename) const
 {
-    // TODO: same format as drones.txt plus deliveriesCompleted; one decimal for battery and payload
-
     ofstream outputFile(filename);
     if (!outputFile){
-        cerr << "error: file can't be open" <<endl;
+        cerr << "Error: Output file cannot be accessed." <<endl;
+        return;
     }
-    outputFile <<fixed << setprecision(1);
+
+    outputFile << fixed << setprecision(1);
     
     for (int i = 0; i < getSize(); i++) {
         outputFile << drones[i].getName() << " "

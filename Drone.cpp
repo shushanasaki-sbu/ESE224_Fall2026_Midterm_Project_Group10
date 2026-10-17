@@ -30,7 +30,7 @@ Drone::Drone(const string& n, int id, const string& m, double b, double p,
     setID(id);
     setModel(m);
     setBattery(b);
-    setMaxPayLoad(p);
+    setMaxPayload(p);
     setPosition(0, x);
     setPosition(1, y);
     setStatus(s);
@@ -91,7 +91,7 @@ bool Drone::setModel(const string& m)
 
 bool Drone::setBattery(double b)
 {
-    if (0 <= b <= 100) {
+    if (b >= 0 && b<= 100) {
         battery = b;
         return true;
     }
