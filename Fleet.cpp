@@ -296,6 +296,54 @@ void Fleet::processOrders(const string& orderFile, const string& logFile)
     // TODO: for each order in file order, find the nearest available drone and dispatch it.
     // Write one line per order to the screen and the log, then the summary line.
     // Sum the exact distances; round only when printing.
+    ifstream input(orderFile);
+    ofstream output(logFile);
+
+    if (!input || !output ){
+        cerr << "error: can't open the file " << endl;
+    }
+
+
+    int orderID, x, y;
+    double weight;
+    int total = 0, assigned = 0;
+    double totalDistance = 0; 
+
+    while (input >> orderID >> x >> y >> weight) {
+        total++;
+        
+        int idx = findNearestAvailable(x, y, weight);
+
+        if (idx == -1) {
+            cout << "Order " << orderID << ": UNASSIGNED" << endl;
+            output << "Order " << orderID << ": UNASSIGNED" << endl;
+            continue;
+
+        } 
+ 
+        double distance = drones[idx].distanceTo(x, y);
+        double batteryBefore = drones[idx].getBattery();
+        int droneID = drones[idx].getID();
+        string droneName = drones[idx].getName();
+
+        dispatchDrone(idx, x, y, weight);
+
+        assigned++;
+        totalDistance += distance;
+
+        cout << "Order " << orderID << ": Drone " << droneID << " (" << droneName
+             << ") distance " << distance << " battery " << batteryBefore
+             << " -> " << drones[idx].getBattery() << endl;
+        output << "Order " << orderID << ": Drone " << droneID << " (" << droneName
+             << ") distance " << distance << " battery " << batteryBefore
+             << " -> " << drones[idx].getBattery() << endl;
+    }
+
+    cout << "Assigned " << assigned << " of " << total
+         << " orders. Total distance flown: " << totalDistance << endl;
+    output << "Assigned " << assigned << " of " << total
+        << " orders. Total distance flown: " << totalDistance << endl;
+
 }
 
 // ---------- Other ----------
@@ -304,6 +352,13 @@ void Fleet::shuffleFleet(unsigned long long seed)
 {
     // TODO: Fisher-Yates. state = seed; for i from n-1 down to 1:
     //       j = nextRandom(state) % (i + 1), then swap drones i and j.
+    unsigned long long state = seed;
+
+    for (int i = getSize() - 1; i > 0; i--) {
+        int j = (int)(nextRandom(state) % (i + 1));
+        swapDrones(i, j);
+    }
+
 }
 
 void Fleet::displayAll() const
@@ -330,4 +385,23 @@ void Fleet::displayDrone(int index) const
 void Fleet::writeFleetToFile(const string& filename) const
 {
     // TODO: same format as drones.txt plus deliveriesCompleted; one decimal for battery and payload
+
+    ofstream outputFile(filename);
+    if (!outputFile){
+        cerr << "error: file can't be open" <<endl;
+    }
+    outputFile <<fixed << setprecision(1);
+    
+    for (int i = 0; i < getSize(); i++) {
+        outputFile << drones[i].getName() << " "
+            << drones[i].getID() << " "
+            << drones[i].getModel() << " "
+            << drones[i].getBattery() << " "
+            << drones[i].getMaxPayload() << " "
+            << drones[i].getPosition(0) << " "
+            << drones[i].getPosition(1) << " "
+            << drones[i].getStatus() << " "
+            << drones[i].getDeliveriesCompleted() << endl;
+    }
+
 }
