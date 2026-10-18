@@ -9,7 +9,9 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 void login()
 {
@@ -88,6 +90,8 @@ void showMenu()
          << "12. Process orders file" << endl
          << "13. Write fleet to file" << endl
          << "14. Add a new drone" << endl
+         << "15. Merge Sort By ID" <<endl
+         << "16. Sorting " <<endl
          << " 0. Quit" << endl;
 }
 
@@ -226,6 +230,43 @@ int main()
             }
             break;
         }
+        case 15:{
+            fleet.mergeSortByID();
+            break;
+
+        }
+
+        case 16: {
+            int sizes[] = {100, 1000, 10000};
+            for (int k = 0; k < 3; k++) {
+                int n = sizes[k];
+                Fleet f;
+                cout << "n = " << n << endl;
+
+                f.generateRandomFleet(n, 12345);
+                auto t1 = high_resolution_clock::now(); //start 
+                f.selectionSortByID();
+                auto t2 = high_resolution_clock::now(); //stop
+                duration<double, milli> diff = t2 - t1;
+                cout << "Time: " << diff.count() << " ms" << endl;
+
+                f.generateRandomFleet(n, 12345);
+                t1 = high_resolution_clock::now();
+                f.insertionSortByBattery();
+                t2 =high_resolution_clock::now();
+                diff = t2 - t1;
+                cout << "Time: " << diff.count() << " ms" << endl;
+
+                f.generateRandomFleet(n, 12345);
+                t1 = high_resolution_clock::now();
+                f.mergeSortByID();
+                t2 = high_resolution_clock::now();
+                diff = t2 - t1;
+               cout << "Time: " << diff.count() << " ms" << endl <<endl;
+            }
+            break;
+        }
+
         case 0:
             cout << "Goodbye!" << endl;
             break;

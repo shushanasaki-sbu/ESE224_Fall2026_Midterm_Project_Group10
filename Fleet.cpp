@@ -80,7 +80,7 @@ void Fleet::selectionSortByID()
             s++; 
         }
     }
-    cout << "Selection sort by ID: comparisons - "  << c << ", swaps - " << s << "\n" << endl; 
+    cout << "Selection sort by ID: comparisons - "  << c << ", swaps - " << s << endl; 
 }
 
 void Fleet::insertionSortByBattery()
@@ -103,7 +103,7 @@ void Fleet::insertionSortByBattery()
 
         drones[j + 1] = key;
     }
-    cout << "Insertion sort by battery: comparisions - " <<  c << ", shifts - "  << h << "\n" << endl;
+    cout << "Insertion sort by battery: comparisions - " <<  c << ", shifts - "  << h  << endl;
 }
 
 void Fleet::sortByName()
@@ -400,13 +400,15 @@ void Fleet::writeFleetToFile(const string& filename) const
 }
 
 void Fleet::generateRandomFleet(int n, unsigned long long seed){
+    
     drones.clear();
     unsigned long long state = seed;
 
     for (int i = 0; i < n; i++) {
-        int id = nextRandom(state) % 1000000 + 1;        
-        double battery = nextRandom(state) % 101;     
-        drones.push_back(Drone("Drone" + to_string(i), id, "Model", battery, 10.0, 0, 0, "IDLE"));
+        int id = nextRandom(state) % 1000000 + 1;
+        double battery = nextRandom(state) % 101;
+        drones.push_back(Drone("Hawk", id, "Condor", battery, 10.0, 3, 18, "IDLE"));
+
     }
 }
 
