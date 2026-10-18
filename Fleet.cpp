@@ -398,3 +398,15 @@ void Fleet::writeFleetToFile(const string& filename) const
     }
 
 }
+
+void Fleet::genetateRandomFleet(int n, unsigned long long seed){
+    drones.clear();
+    unsigned long long state = seed;
+
+    for (int i = 0; i < n; i++) {
+        int id = nextRandom(state) % 1000000 + 1;        
+        double battery = nextRandom(state) % 101;     
+        drones.push_back(Drone("Drone" + to_string(i), id, "Model", battery, 10.0, 0, 0, "IDLE"));
+    }
+}
+
