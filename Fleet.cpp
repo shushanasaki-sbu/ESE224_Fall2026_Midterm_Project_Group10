@@ -67,7 +67,7 @@ void Fleet::selectionSortByID()
 {
     int c = 0, s = 0;
 
-    for(int i = 0; i< getSize() ; i++){
+    for(int i = 0; i < getSize() ; i++){
         int min = i;
         for (int j = i + 1; j < getSize(); j++){
             c++;
