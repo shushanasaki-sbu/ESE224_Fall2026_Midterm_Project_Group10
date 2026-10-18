@@ -399,7 +399,7 @@ void Fleet::writeFleetToFile(const string& filename) const
 
 }
 
-void Fleet::genetateRandomFleet(int n, unsigned long long seed){
+void Fleet::generateRandomFleet(int n, unsigned long long seed){
     drones.clear();
     unsigned long long state = seed;
 
@@ -410,3 +410,70 @@ void Fleet::genetateRandomFleet(int n, unsigned long long seed){
     }
 }
 
+void Fleet::mergeSortByID()
+{
+    unsigned long long c = 0;
+    int n = drones.size();
+    vector<Drone> leftFleet, rightFleet;
+
+    if (n <= 1) {
+        cout << "Merge Sort by ID: " << c << " comparisons\n" << endl;
+        return;
+    }
+
+    for (int size = 1; size <n; size = 2*size) 
+    {
+        for (int left = 0; left < n -1; left += 2 * size) {
+            vector<Drone> leftFleet, rightFleet;
+
+            int middle = min(left+ size - 1, n - 1);
+            int right = min(left + 2 * size - 1, n - 1);
+
+            int leftLen = middle - left + 1;
+            int rightLen = right - middle;
+
+            for (int i = 0; i < leftLen; i++) {
+                leftFleet.push_back(drones[left + i]);
+
+            }
+            for (int j = 0; j < rightLen; j++) {
+                rightFleet.push_back(drones[middle + 1 + j]);
+            }
+
+            int leftPos = 0;
+            int rightPos = 0;
+            int mergePos = left;
+
+            while (leftPos < leftLen && rightPos < rightLen) {
+                c++;
+                if (leftFleet[leftPos].getID() <= rightFleet[rightPos].getID()) {
+                    drones[mergePos] = leftFleet[leftPos];
+                    mergePos++;
+                    leftPos++;
+                } else {
+                    drones[mergePos] = rightFleet[rightPos];
+                    mergePos++;
+                    rightPos++;
+
+                }
+            }
+
+            while (leftPos < leftLen) {
+                drones[mergePos] = leftFleet[leftPos];
+                mergePos++;
+                leftPos++;
+            }
+
+            while (rightPos < rightLen) {
+                drones[mergePos] = rightFleet[rightPos];
+                mergePos++;
+                rightPos++;
+            }
+
+
+        }
+    }
+
+    cout << "Merge sort by ID: " << c << " comparisons" << endl;
+
+}

@@ -52,8 +52,7 @@ public:
     void writeFleetToFile(const string& filename) const;
     
     // bonus
-
-    void genetateRandomFleet(int n, unsigned long long seed);
+    void generateRandomFleet(int n, unsigned long long seed);
     void mergeSortByID();
 };
 
