@@ -50,6 +50,11 @@ public:
     void displayAll() const;
     void displayDrone(int index) const;
     void writeFleetToFile(const string& filename) const;
+    
+    // bonus
+
+    void genetateRandomFleet(int n, unsigned long long seed);
+    void mergeSortByID();
 };
 
 #endif
