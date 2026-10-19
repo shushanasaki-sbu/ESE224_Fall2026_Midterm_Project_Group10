@@ -1,0 +1,21 @@
+Order 5001: Drone 507 (Radar) distance 7.1 battery 61.8 -> 40.6
+Order 5002: Drone 264 (Zenith) distance 12.2 battery 85.8 -> 28.4
+Order 5003: Drone 556 (Jet) distance 9.0 battery 73.9 -> 42.9
+Order 5004: Drone 797 (Nebula) distance 3.6 battery 31.7 -> 21.0
+Order 5005: UNASSIGNED
+Order 5006: Drone 137 (Onyx) distance 1.0 battery 77.8 -> 75.4
+Order 5007: UNASSIGNED
+Order 5008: UNASSIGNED
+Order 5009: Drone 820 (Spirit) distance 4.0 battery 30.4 -> 20.6
+Order 5010: Drone 658 (Blaze) distance 14.3 battery 86.6 -> 31.6
+Order 5011: Drone 316 (Falcon) distance 4.2 battery 56.1 -> 43.0
+Order 5012: Drone 176 (Dart) distance 5.0 battery 99.7 -> 86.5
+Order 5013: Drone 176 (Dart) distance 2.2 battery 86.5 -> 77.7
+Order 5014: UNASSIGNED
+Order 5015: Drone 507 (Radar) distance 2.2 battery 40.6 -> 35.3
+Order 5016: UNASSIGNED
+Order 5017: Drone 560 (Drift) distance 7.1 battery 87.1 -> 70.7
+Order 5018: Drone 316 (Falcon) distance 5.1 battery 43.0 -> 28.8
+Order 5019: Drone 560 (Drift) distance 2.2 battery 70.7 -> 63.3
+Order 5020: Drone 137 (Onyx) distance 2.2 battery 75.4 -> 67.0
+Assigned 15 of 20 orders. Total distance flown: 81.5
