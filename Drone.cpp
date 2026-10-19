@@ -26,6 +26,7 @@ Drone::Drone()
 Drone::Drone(const string& n, int id, const string& m, double b, double p,
              int x, int y, const string& s) : Drone()
 {
+    //sets each member by callings its mutator
     setName(n);
     setID(id);
     setModel(m);
@@ -49,6 +50,7 @@ int Drone::getDeliveriesCompleted() const { return deliveriesCompleted; }
 
 int Drone::getPosition(int index) const
 {
+    //only index 0 (x) and index 1 (y) valid
     if (index == 0 || index == 1) {
         return position[index];
     }
@@ -141,25 +143,30 @@ bool Drone::setStatus(const string& s)
 
 double Drone::distanceTo(int x, int y) const
 {
+    //calculate straight-line distance from drone's position to (x, y)
     return sqrt(pow(x - position[0], 2) + pow(y - position[1], 2));
 }
 
 double Drone::batteryNeeded(int x, int y, double weight) const
 {
+    //calculate battery needed for drone to move to (x, y) carrying weight
     return distanceTo(x, y) * BATTERY_PER_UNIT * (1 + PAYLOAD_FACTOR * weight);
 }
 
 bool Drone::canDeliver(int x, int y, double weight) const
 {
+    //drone can deliver order if IDLE, weight <= maxPayload, and the battery after delivery is >= 20
     return (status == "IDLE" && weight <= maxPayload && (battery - batteryNeeded(x, y, weight)) >= SAFETY_RESERVE);
 }
 
 void Drone::completeDelivery(int x, int y, double weight)
 {
+    //after delivery, subtract battery used, move drone to (x, y), and inc deliveriesCompleted
     battery -= batteryNeeded(x, y, weight);
     setPosition(0, x);
     setPosition(1, y);
     deliveriesCompleted++;
+    //if battery < 30, set drone status to CHARGING
     if (battery < LOW_BATTERY)
         status = "CHARGING";
 }
@@ -180,6 +187,7 @@ void Drone::displayDrone() const
 
 bool Drone::operator==(const Drone& other) const
 {
+    //two drones are equal if they have the same ID
     return ID == other.getID();
 }
 
